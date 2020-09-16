@@ -1,4 +1,4 @@
-.createWrapper{
+.createWrapper, .listAllWrapper, .showWrapper{
     border:1px solid #ccc;
     border-radius:10px;
     max-width:600px;
@@ -14,4 +14,18 @@
 .createForm{
     padding:20px;
     margin-top:10px;
+}
+
+.showSpan{
+    font-weight:bold;
+}
+
+.showDescription{
+    border-top:1px solid #ccc;
+    padding:10px 0 0 0;
+    font-size:14px;
+}
+
+.infoHeader{
+    margin-bottom:15px;
 }

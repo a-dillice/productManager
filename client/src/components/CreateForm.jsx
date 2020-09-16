@@ -7,7 +7,7 @@ import styles from './css/main.module.css';
 // CreateForm component
 const CreateForm = (props) => {
 
-    // pass function thru props
+    // pass props thru
     const {submitCreate, getInputs, inputs, success, errors} = props;
 
     // return

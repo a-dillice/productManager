@@ -6,5 +6,6 @@ module.exports = (app) => {
 
     app.get("/api/products", ProductsController.index);
     app.post("/api/products/create", ProductsController.create);
+    app.get("/api/products/:_id", ProductsController.show);
 
 }

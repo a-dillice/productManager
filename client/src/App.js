@@ -1,6 +1,7 @@
 import React from 'react';
 import {Router} from '@reach/router';
-import Create from './views/Create'
+import Create from './views/Create';
+import Show from './views/Show'
 
 // App 
 function App() {
@@ -8,7 +9,8 @@ function App() {
     <div className="App">
       
       <Router>
-        <Create path="/" />
+        <Create path="/"/>
+        <Show path="/:id"/>
       </Router>
 
     </div>

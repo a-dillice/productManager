@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import CreateForm from '../components/CreateForm';
+import ListAll from '../components/ListAll';
+
 import axios from 'axios';
 
 // create component
@@ -64,6 +66,7 @@ const Create = (props) => {
                 
                 // reset errors
                 setErrors({});
+                
             }
             
         // catch other errors
@@ -78,12 +81,15 @@ const Create = (props) => {
 
     // return 
     return(
-        <CreateForm 
-            submitCreate={submitCreate}
-            getInputs={getInputs}
-            inputs={inputs}
-            errors={errors}
-            success={success}/>
+        <div>
+            <CreateForm 
+                submitCreate={submitCreate}
+                getInputs={getInputs}
+                inputs={inputs}
+                errors={errors}
+                success={success}/>
+            <ListAll/>
+        </div>
     )
 
 }

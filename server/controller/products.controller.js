@@ -22,7 +22,7 @@ module.exports = {
         });
 
     },
-    // create
+    // create one product
     create:(req, res) => {
 
         //get user data
@@ -42,6 +42,26 @@ module.exports = {
 
         });
 
-    }
+    },
+    // show one product
+    show:(req, res) =>{
 
+        // get product id
+        const productID = req.params._id;
+
+        // find all documents
+        Products.findOne({_id:productID}).then((data) =>{
+
+            // pass data to results 
+            res.json({results:data});
+
+        // catch errors
+        }).catch((err) => {
+
+            // pass err to errors 
+            res.json({errors:"Product was not found."}); 
+
+        });
+
+    }
 }
