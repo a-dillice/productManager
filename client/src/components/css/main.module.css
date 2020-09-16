@@ -1,0 +1,17 @@
+.createWrapper{
+    border:1px solid #ccc;
+    border-radius:10px;
+    max-width:600px;
+    margin:20px auto;
+    padding:20px;
+    width:100%;
+}
+
+.jumboTron{
+    padding-bottom:0;
+}
+
+.createForm{
+    padding:20px;
+    margin-top:10px;
+}
