@@ -7,12 +7,15 @@ import { Link } from '@reach/router';
 // list all products
 const ListAll = (props) => {
 
+    // this is to update list component
+    const [deleted, setDeleted] = useState("");
+
     // init api url
     const apiUrl = "//localhost:8000/api/products";
 
     // set list
-    const [listAll, setListAll] = useState({})
-
+    const [listAll, setListAll] = useState("")
+    
     // use hook
     useEffect(() => {
 
@@ -29,8 +32,29 @@ const ListAll = (props) => {
         }).catch((err) => {
             console.log(err)
         })
+    
+    // update on successful msg and when item is deleted
+    },[props.success, deleted]);
 
-    },[props]);
+    // remove product
+    const removeProduct = (id) => {
+
+        // get list of all products using api end point
+        axios({
+            method:'delete',
+            url:(apiUrl + "/delete/" + id)
+        //success 
+        }).then((res) => {
+            
+            //update delete based on id
+            setDeleted(id)
+        
+        // catch errors
+        }).catch((err) => {
+            console.log(err)
+        })        
+
+    }
 
     // return
     return(
@@ -41,9 +65,12 @@ const ListAll = (props) => {
                     return( 
                         <li className="list-group-item" key={key}>
                             <Link to={`/${item._id}`}>{item.title}</Link>
+                            <Link className="btn btn-sm btn-info ml-3" to={`/${item._id}/edit`}>Edit {item.title}</Link>
+                            <button className="btn btn-sm btn-danger ml-3" onClick={(e)=>{removeProduct(item._id)}}>Delete {item.title}</button>
                         </li>
                     )
                 })}
+                {(Object.entries(listAll).length <= 0)? <p className="text-danger text-center mb-0">No products found.</p>:""}
 
             </ul>
         </div>

@@ -63,5 +63,52 @@ module.exports = {
 
         });
 
+    },
+    // update product
+    update:(req, res) => {
+
+        // get product id
+        const productID = req.params._id;
+        
+        // get user data
+        const userData = req.body;
+
+        // find and update our product
+        Products.findOneAndUpdate({_id:productID}, userData, {new:true, runValidators:true, useFindAndModify:false}).then((data) => {
+
+            // pass data to results 
+            res.json({results:data, success:"Product was successfully saved."});
+
+        // catch errors
+        }).catch((err) => {
+
+            // pass err to errors 
+            res.json({errors:err.errors}); 
+
+        });
+
+    },
+    // delete product
+    destroy:(req, res) =>{
+
+        // get product id
+        const productID = req.params._id;
+
+        // delete document based on id
+        Products.deleteOne({_id:productID}).then((data) => {
+            
+            // pass data to results 
+            res.json({success:`${data}`});
+            
+        // catch errors
+        }).catch((err) => {
+
+            // pass err to errors 
+            res.json({errors:err.errors}); 
+
+        });
+
     }
+
+
 }

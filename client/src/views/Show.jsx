@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { navigate, Link } from '@reach/router';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../components/css/main.module.css';
@@ -7,7 +8,7 @@ import styles from '../components/css/main.module.css';
 const Show = (props) => {
 
     // init api url
-    const apiUrl = "//localhost:8000/api/products/" + props.id;
+    const apiUrl = "//localhost:8000/api/products";
 
     // set productInfo
     const [productInfo, setProductInfo] = useState({});
@@ -18,7 +19,7 @@ const Show = (props) => {
         // get list of all products using api end point
         axios({
             method:'get',
-            url:apiUrl 
+            url:(apiUrl + "/" + props.id)
         //success 
         }).then((res) => {
             
@@ -36,11 +37,32 @@ const Show = (props) => {
             
             }
 
+        // fail
         }).catch((err) => {
             console.log(err)
         })
 
-    },[apiUrl])
+    },[apiUrl, props.id])
+
+    // remove product
+    const removeProduct = (id) =>{
+
+        // get list of all products using api end point
+        axios({
+            method:'delete',
+            url:(apiUrl + "/delete/" + id)
+        //success 
+        }).then(() => {
+            
+            // go to main page
+            navigate("/");
+        
+        // catch errors
+        }).catch((err) => {
+            console.log(err)
+        })   
+
+    }
 
     // return
     return(
@@ -48,7 +70,10 @@ const Show = (props) => {
             {(productInfo && productInfo.title) ? 
                 <div><h1 className={styles.infoHeader}>{productInfo.title}</h1>
                 <p><span className={styles.showSpan}>Price:</span> {productInfo.price}</p>
-                <p className={styles.showDescription}>{productInfo.description}</p></div> : ""}
+                <p className={styles.showDescription}>{productInfo.description}</p>
+                <button className="btn btn-sm btn-danger m-0" onClick={(e)=>{removeProduct(productInfo._id)}}>Delete {productInfo.title}</button>
+                <Link className="btn btn-sm btn-info ml-3" to={`/${productInfo._id}/edit`}>Edit {productInfo.title}</Link>
+                </div> : ""}
             {(productInfo.errors) ? <p className="text-danger mb-0">{productInfo.errors}</p> : ""}
         </div>
     )

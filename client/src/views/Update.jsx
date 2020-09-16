@@ -1,26 +1,56 @@
-import React, {useState} from 'react';
-import CreateForm from '../components/CreateForm';
-import ListAll from '../components/ListAll';
+import React, {useState, useEffect} from 'react';
+import UpdateForm from '../components/UpdateForm';
 import axios from 'axios';
 
-// create component
-const Create = (props) => {
+// Update component
+const Update = (props) => {
 
-    // setup form reset var
-    const formReset = {
+    // set api url
+    const apiUrl = "//localhost:8000/api/products";
+
+    // store input values
+    const [inputs, setInputs] = useState({
         description:"",
         title:"",
         price:""
-    }
-
-    // store input values
-    const [inputs, setInputs] = useState(formReset);
+    });
 
     // store success values
     const [success, setSuccess] = useState("");
     
     // store errors values
     const [errors, setErrors] = useState({});
+
+    // grab current data
+    useEffect(() => {
+
+        // get list of the product using api end point
+        axios({
+            method:'get',
+            url:(apiUrl + "/" + props.id)
+        //success 
+        }).then((res) => {
+            
+            // check for errors
+            if(res.data.errors){
+                
+                // set errors
+                setErrors({errors:res.data.errors})
+               
+               // set product to state
+            }else{
+                
+                // set input
+                setInputs(res.data.results)
+
+            }
+
+        // fail
+        }).catch((err) => {
+            console.log(err)
+        })
+        
+    },[props.id])
 
 
     // get input values
@@ -34,16 +64,16 @@ const Create = (props) => {
         
     }
 
-    // create form submission
-    const submitCreate = (e) => {
+    // Update form submission
+    const submitUpdate = (e) => {
 
         // prevent default submit
         e.preventDefault();
 
         // send post data to api endpoint
         axios({
-            method:'post',
-            url:'//localhost:8000/api/products/create',
+            method:'put',
+            url:apiUrl + "/" + props.id + "/edit",
             data:inputs    
         //success 
         }).then((res) => {
@@ -61,7 +91,7 @@ const Create = (props) => {
                 setSuccess(`${res.data.results.title} was successfully saved.`);
 
                 // reset form
-                setInputs(formReset);
+                setInputs(inputs);
                 
                 // reset errors
                 setErrors({});
@@ -81,17 +111,16 @@ const Create = (props) => {
     // return 
     return(
         <div>
-            <CreateForm 
-                submitCreate={submitCreate}
+            <UpdateForm 
+                submitUpdate={submitUpdate}
                 getInputs={getInputs}
                 inputs={inputs}
                 errors={errors}
                 success={success}/>
-            <ListAll success={success}/>
         </div>
     )
 
 }
 
 // export
-export default Create;
+export default Update;
